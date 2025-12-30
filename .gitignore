@@ -1,0 +1,28 @@
+# Build results
+bin/
+obj/
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+
+# VS Code
+.vscode/
+
+# Rider
+.idea/
+
+# NuGet
+*.nupkg
+packages/
+
+# Local settings
+.claude/
+appsettings.*.json
+!appsettings.json
+!appsettings.Development.json
+
+# OS files
+.DS_Store
+Thumbs.db
