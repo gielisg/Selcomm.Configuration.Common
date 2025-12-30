@@ -168,9 +168,9 @@ public class SecurityPolicyProvider : ISecurityPolicyProvider
         Domain = domain,
         Description = "Default security policy",
         LoginSecurity = new LoginSecuritySettings(),
-        PasswordPolicy = new PasswordPolicySettings(),
-        EmailConfirmation = new EmailConfirmationPolicySettings(),
-        MobileConfirmation = new MobileConfirmationPolicySettings(),
+        PasswordPolicy = new SecurityPolicyPasswordSettings(),
+        EmailConfirmation = new SecurityPolicyEmailConfirmationSettings(),
+        MobileConfirmation = new SecurityPolicyMobileConfirmationSettings(),
         SessionManagement = new SessionManagementSettings(),
         MfaPolicy = new MfaPolicySettings()
     };

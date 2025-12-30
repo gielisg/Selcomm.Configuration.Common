@@ -36,13 +36,7 @@ public static class ServiceCollectionExtensions
         // Register configuration caches if caching is enabled
         if (options.EnableCaching)
         {
-            services.AddSingleton(typeof(IConfigurationCache<>), sp =>
-            {
-                var cacheType = typeof(ConfigurationCache<>);
-                return Activator.CreateInstance(cacheType.MakeGenericType(typeof(object)), options.CacheExpiration)!;
-            });
-
-            // Register specific caches
+            // Register specific caches for each configuration type
             services.AddSingleton<IConfigurationCache<EmailSettings>>(_ => new ConfigurationCache<EmailSettings>(options.CacheExpiration));
             services.AddSingleton<IConfigurationCache<SmsSettings>>(_ => new ConfigurationCache<SmsSettings>(options.CacheExpiration));
             services.AddSingleton<IConfigurationCache<JwtSettings>>(_ => new ConfigurationCache<JwtSettings>(options.CacheExpiration));
@@ -92,6 +86,10 @@ public static class ServiceCollectionExtensions
             new SecurityPolicyProvider(
                 sp.GetRequiredService<ILogger<SecurityPolicyProvider>>(),
                 options.SecurityPolicyBasePath));
+
+        // Register logging configuration provider
+        services.AddSingleton<ILoggingConfigurationProvider>(sp =>
+            new LoggingConfigurationProvider(configuration));
 
         // Register IOptions<T> bindings for simple scenarios
         OptionsConfigurationServiceCollectionExtensions.Configure<OtpSettings>(services, configuration.GetSection("OtpSettings"));

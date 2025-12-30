@@ -15,13 +15,13 @@ public class SecurityPolicy
     public LoginSecuritySettings LoginSecurity { get; set; } = new();
 
     /// <summary>Password policy settings.</summary>
-    public PasswordPolicySettings PasswordPolicy { get; set; } = new();
+    public SecurityPolicyPasswordSettings PasswordPolicy { get; set; } = new();
 
     /// <summary>Email confirmation settings.</summary>
-    public EmailConfirmationPolicySettings EmailConfirmation { get; set; } = new();
+    public SecurityPolicyEmailConfirmationSettings EmailConfirmation { get; set; } = new();
 
     /// <summary>Mobile confirmation settings.</summary>
-    public MobileConfirmationPolicySettings MobileConfirmation { get; set; } = new();
+    public SecurityPolicyMobileConfirmationSettings MobileConfirmation { get; set; } = new();
 
     /// <summary>Session management settings.</summary>
     public SessionManagementSettings SessionManagement { get; set; } = new();
@@ -36,64 +36,121 @@ public class SecurityPolicy
 public class LoginSecuritySettings
 {
     /// <summary>Maximum failed login attempts before lockout.</summary>
-    public int MaxFailedAttempts { get; set; } = 5;
+    public int MaxFailedLoginAttempts { get; set; } = 5;
 
     /// <summary>Lockout duration in minutes.</summary>
-    public int LockoutDurationMinutes { get; set; } = 15;
+    public int LockoutDurationMinutes { get; set; } = 30;
 
     /// <summary>Reset failed attempts after this many minutes of inactivity.</summary>
-    public int ResetFailedAttemptsAfterMinutes { get; set; } = 30;
+    public int ResetFailedAttemptsAfterMinutes { get; set; } = 60;
 
-    /// <summary>Enable device tracking.</summary>
-    public bool EnableDeviceTracking { get; set; } = true;
-
-    /// <summary>Send notifications for new device logins.</summary>
-    public bool NotifyOnNewDevice { get; set; } = true;
+    /// <summary>Enable unknown device tracking.</summary>
+    public bool TrackUnknownDevices { get; set; } = true;
 
     /// <summary>Require MFA for logins from new/unknown devices.</summary>
-    public bool RequireMfaForNewDevice { get; set; } = false;
-
-    /// <summary>Block login from new device if user has no MFA configured.</summary>
-    public bool BlockNewDeviceWithoutMfa { get; set; } = false;
+    public bool RequireMfaForNewDevices { get; set; } = false;
 }
 
 /// <summary>
-/// Email confirmation policy settings.
+/// Password policy settings within a security policy.
+/// Uses a different name to avoid conflict with the domain configuration PasswordPolicySettings.
 /// </summary>
-public class EmailConfirmationPolicySettings
+public class SecurityPolicyPasswordSettings
 {
-    /// <summary>Require email confirmation for new accounts.</summary>
-    public bool Required { get; set; } = false;
+    /// <summary>Minimum password length.</summary>
+    public int MinimumLength { get; set; } = 8;
 
-    /// <summary>Token expiration in hours.</summary>
-    public int TokenExpirationHours { get; set; } = 24;
+    /// <summary>Maximum password length.</summary>
+    public int MaximumLength { get; set; } = 128;
 
-    /// <summary>Maximum confirmation emails per hour.</summary>
-    public int MaxEmailsPerHour { get; set; } = 3;
+    /// <summary>Require at least one uppercase letter.</summary>
+    public bool RequireUppercase { get; set; } = true;
 
-    /// <summary>Maximum confirmation emails per day.</summary>
-    public int MaxEmailsPerDay { get; set; } = 10;
+    /// <summary>Require at least one lowercase letter.</summary>
+    public bool RequireLowercase { get; set; } = true;
+
+    /// <summary>Require at least one digit.</summary>
+    public bool RequireDigits { get; set; } = true;
+
+    /// <summary>Require at least one special character.</summary>
+    public bool RequireSpecialCharacters { get; set; } = true;
+
+    /// <summary>Allowed special characters.</summary>
+    public string SpecialCharacters { get; set; } = "!@#$%^&*()_+-=[]{}|;:,.<>?";
+
+    /// <summary>Whether to prevent password reuse.</summary>
+    public bool PreventPasswordReuse { get; set; } = true;
+
+    /// <summary>Number of previous passwords to track for reuse prevention.</summary>
+    public int PasswordHistoryCount { get; set; } = 5;
+
+    /// <summary>Password expiration in days (0 = never expires).</summary>
+    public int PasswordExpirationDays { get; set; } = 90;
+
+    /// <summary>Days before expiration to warn user.</summary>
+    public int PasswordExpirationWarningDays { get; set; } = 14;
+
+    /// <summary>Check against common password blacklist.</summary>
+    public bool CommonPasswordBlacklist { get; set; } = true;
 }
 
 /// <summary>
-/// Mobile confirmation policy settings.
+/// Email confirmation settings within a security policy.
+/// Uses a different name to avoid conflict with the domain configuration EmailConfirmationSettings.
 /// </summary>
-public class MobileConfirmationPolicySettings
+public class SecurityPolicyEmailConfirmationSettings
 {
-    /// <summary>Require mobile confirmation for new accounts.</summary>
-    public bool Required { get; set; } = false;
+    /// <summary>Whether email confirmation is enabled.</summary>
+    public bool Enabled { get; set; } = true;
+
+    /// <summary>Token expiration in minutes.</summary>
+    public int TokenExpirationMinutes { get; set; } = 1440;
+
+    /// <summary>Maximum attempts per day.</summary>
+    public int MaxAttemptsPerDay { get; set; } = 5;
+
+    /// <summary>Minimum days between attempts.</summary>
+    public int MinimumDaysBetweenAttempts { get; set; } = 0;
+
+    /// <summary>Minimum hours between attempts.</summary>
+    public int MinimumHoursBetweenAttempts { get; set; } = 1;
+
+    /// <summary>Block after maximum attempts.</summary>
+    public bool BlockAfterMaxAttempts { get; set; } = true;
+
+    /// <summary>Block duration in hours.</summary>
+    public int BlockDurationHours { get; set; } = 24;
+}
+
+/// <summary>
+/// Mobile confirmation settings within a security policy.
+/// Uses a different name to avoid conflict with the domain configuration MobileConfirmationSettings.
+/// </summary>
+public class SecurityPolicyMobileConfirmationSettings
+{
+    /// <summary>Whether mobile confirmation is enabled.</summary>
+    public bool Enabled { get; set; } = true;
 
     /// <summary>Code expiration in minutes.</summary>
     public int CodeExpirationMinutes { get; set; } = 10;
 
-    /// <summary>Maximum SMS per hour.</summary>
-    public int MaxSmsPerHour { get; set; } = 3;
-
-    /// <summary>Maximum SMS per day.</summary>
-    public int MaxSmsPerDay { get; set; } = 10;
-
     /// <summary>Code length (number of digits).</summary>
     public int CodeLength { get; set; } = 6;
+
+    /// <summary>Maximum attempts per day.</summary>
+    public int MaxAttemptsPerDay { get; set; } = 5;
+
+    /// <summary>Minimum days between attempts.</summary>
+    public int MinimumDaysBetweenAttempts { get; set; } = 0;
+
+    /// <summary>Minimum hours between attempts.</summary>
+    public int MinimumHoursBetweenAttempts { get; set; } = 1;
+
+    /// <summary>Block after maximum attempts.</summary>
+    public bool BlockAfterMaxAttempts { get; set; } = true;
+
+    /// <summary>Block duration in hours.</summary>
+    public int BlockDurationHours { get; set; } = 24;
 }
 
 /// <summary>
@@ -101,23 +158,23 @@ public class MobileConfirmationPolicySettings
 /// </summary>
 public class SessionManagementSettings
 {
-    /// <summary>Access token lifetime in minutes.</summary>
-    public int AccessTokenLifetimeMinutes { get; set; } = 15;
+    /// <summary>Access token expiration in minutes.</summary>
+    public int AccessTokenExpirationMinutes { get; set; } = 15;
 
-    /// <summary>Refresh token lifetime in days.</summary>
-    public int RefreshTokenLifetimeDays { get; set; } = 7;
+    /// <summary>Refresh token expiration in days.</summary>
+    public int RefreshTokenExpirationDays { get; set; } = 30;
 
     /// <summary>Allow concurrent sessions.</summary>
     public bool AllowConcurrentSessions { get; set; } = true;
 
     /// <summary>Maximum concurrent sessions (0 = unlimited).</summary>
-    public int MaxConcurrentSessions { get; set; } = 0;
-
-    /// <summary>Rotate refresh tokens on use.</summary>
-    public bool RotateRefreshToken { get; set; } = false;
+    public int MaxConcurrentSessions { get; set; } = 5;
 
     /// <summary>Invalidate all sessions on password change.</summary>
-    public bool InvalidateSessionsOnPasswordChange { get; set; } = true;
+    public bool InvalidateTokensOnPasswordChange { get; set; } = true;
+
+    /// <summary>Invalidate all sessions on MFA toggle.</summary>
+    public bool InvalidateTokensOnMfaToggle { get; set; } = true;
 }
 
 /// <summary>
@@ -128,14 +185,14 @@ public class MfaPolicySettings
     /// <summary>Require MFA for all users.</summary>
     public bool Required { get; set; } = false;
 
+    /// <summary>When true, at least one MFA method (primary or backup) must be active.</summary>
+    public bool RequireMfa { get; set; } = false;
+
     /// <summary>Allowed MFA methods.</summary>
-    public List<string> AllowedMethods { get; set; } = new() { "totp", "sms", "email" };
+    public List<string> AllowedMethods { get; set; } = new() { "totp", "email", "sms" };
 
-    /// <summary>Preferred MFA method.</summary>
-    public string PreferredMethod { get; set; } = "totp";
-
-    /// <summary>Allow backup MFA methods.</summary>
-    public bool AllowBackupMethod { get; set; } = true;
+    /// <summary>Default MFA method.</summary>
+    public string DefaultMethod { get; set; } = "totp";
 
     /// <summary>Grace period in days to set up MFA (0 = immediate).</summary>
     public int GracePeriodDays { get; set; } = 0;
