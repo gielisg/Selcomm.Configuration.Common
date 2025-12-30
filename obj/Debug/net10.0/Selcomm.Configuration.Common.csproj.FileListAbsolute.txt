@@ -1,0 +1,14 @@
+C:\Selcomm.Configuration.Common\obj\Debug\net10.0\Selcomm.Configuration.Common.csproj.AssemblyReference.cache
+C:\Selcomm.Configuration.Common\obj\Debug\net10.0\Selcomm.Configuration.Common.GeneratedMSBuildEditorConfig.editorconfig
+C:\Selcomm.Configuration.Common\obj\Debug\net10.0\Selcomm.Configuration.Common.AssemblyInfoInputs.cache
+C:\Selcomm.Configuration.Common\obj\Debug\net10.0\Selcomm.Configuration.Common.AssemblyInfo.cs
+C:\Selcomm.Configuration.Common\obj\Debug\net10.0\Selcomm.Configuration.Common.csproj.CoreCompileInputs.cache
+C:\Selcomm.Configuration.Common\bin\Debug\net10.0\Selcomm.Configuration.Common.deps.json
+C:\Selcomm.Configuration.Common\bin\Debug\net10.0\Selcomm.Configuration.Common.dll
+C:\Selcomm.Configuration.Common\bin\Debug\net10.0\Selcomm.Configuration.Common.pdb
+C:\Selcomm.Configuration.Common\bin\Debug\net10.0\Selcomm.Configuration.Common.xml
+C:\Selcomm.Configuration.Common\obj\Debug\net10.0\Selcomm.Configuration.Common.dll
+C:\Selcomm.Configuration.Common\obj\Debug\net10.0\refint\Selcomm.Configuration.Common.dll
+C:\Selcomm.Configuration.Common\obj\Debug\net10.0\Selcomm.Configuration.Common.xml
+C:\Selcomm.Configuration.Common\obj\Debug\net10.0\Selcomm.Configuration.Common.pdb
+C:\Selcomm.Configuration.Common\obj\Debug\net10.0\ref\Selcomm.Configuration.Common.dll
